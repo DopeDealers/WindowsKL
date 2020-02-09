@@ -196,11 +196,16 @@ namespace SharpLocker
             Taskbar.Show();
             System.Windows.Forms.Application.Exit();
         }
-
+        // enter password
         private void button1_Click_1(object sender, EventArgs e)
         {
             Taskbar.Show();
             System.Windows.Forms.Application.Exit();
+        }
+
+        private void LockScreenForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
     
